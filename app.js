@@ -1,12 +1,13 @@
 var express = require("express");
 var logfmt = require("logfmt");
-var config = require('config');
+var config = require('./config');
+var pg = require('pg');
 var app = express();
 
 app.use(logfmt.requestLogger());
 
 app.get('/', function(req, res) {
-	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	pg.connect(/*config.db.url*/process.env.DATABASE_URL, function(err, client, done) {
 		client.query('select * from "testTable"', function(err, result) {
 			done();
 			if(err) {
